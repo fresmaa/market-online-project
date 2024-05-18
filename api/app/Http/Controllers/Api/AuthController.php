@@ -87,6 +87,13 @@ class AuthController extends Controller
             }
 
             $user = User::where('username', $request->username)->first();
+            if (empty($user)) {
+                return response()->json([
+                    'status' => false,
+                    'error_message' => 'User not found',
+                ]);
+            }
+
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
