@@ -39,13 +39,13 @@ export class Menu {
       ],
     },
     {
-      group: 'Collaboration',
+      group: 'Transction',
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Download',
-          route: '/download',
+          icon: 'assets/icons/heroicons/outline/transaction.svg',
+          label: 'Transaction',
+          route: '/home/transaction',
         },
         {
           icon: 'assets/icons/heroicons/outline/gift.svg',

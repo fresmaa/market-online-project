@@ -75,8 +75,7 @@ export class SignInComponent implements OnInit {
 
       const token = data.token;
       window.localStorage.setItem(environment.api_token_identifier, token);
-      console.log('mausk')
-      this._router.navigateByUrl('/dashboard');
+      this._router.navigateByUrl('/home');
       console.log('mausk2')
     } catch (error) {
       console.log(error);
