@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { RouterLink, Router} from '@angular/router';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ModuleModule as CoreModule} from "../../../../../shared/module/module.module"
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   styleUrls: ['./profile-menu.component.scss'],
   standalone: true,
-  imports: [ClickOutsideDirective, NgClass, RouterLink, AngularSvgIconModule],
+  imports: [
+    ClickOutsideDirective, 
+    RouterLink, 
+    AngularSvgIconModule, 
+    CoreModule,
+  ],
   animations: [
     trigger('openClose', [
       state(
@@ -37,6 +43,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class ProfileMenuComponent implements OnInit {
   public isOpen = false;
+
   public profileMenu = [
     {
       title: 'Your Profile',
@@ -51,7 +58,8 @@ export class ProfileMenuComponent implements OnInit {
     {
       title: 'Log out',
       icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
+      // link: '/auth',
+      direct: 'logout'
     },
   ];
 
@@ -88,7 +96,10 @@ export class ProfileMenuComponent implements OnInit {
 
   public themeMode = ['light', 'dark'];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(
+    public themeService: ThemeService,
+    private readonly _router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -107,5 +118,16 @@ export class ProfileMenuComponent implements OnInit {
     this.themeService.theme.update((theme) => {
       return { ...theme, color: color };
     });
+  }
+
+  directMenu(direct: string | undefined) {
+    if (direct == 'logout') {
+      if (confirm ('Are you sure you want to log out?')) {
+        window.localStorage.removeItem(environment.api_token_identifier);
+        this._router.navigateByUrl('/auth');
+      }
+    }
+
+    return;
   }
 }

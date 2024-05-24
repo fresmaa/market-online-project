@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { environment } from 'src/environments/environment';
 import axios from 'axios';
+import { ModuleModule as CoreModule} from "../../../../shared/module/module.module"
+
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterLink, AngularSvgIconModule, NgClass, NgIf, ButtonComponent],
+  imports: [
+    FormsModule, 
+    ReactiveFormsModule, 
+    RouterLink, 
+    AngularSvgIconModule, 
+    ButtonComponent,
+    CoreModule
+  ],
 })
 export class SignInComponent implements OnInit {
   formLogin!: FormGroup;
@@ -39,6 +47,12 @@ export class SignInComponent implements OnInit {
 
   get f() {
     return this.formLogin.controls;
+  }
+  
+  onKeyPress(event: KeyboardEvent) {
+    if(event.key == 'Enter') {
+      this.login();
+    }
   }
 
   togglePasswordTextType() {
@@ -81,10 +95,13 @@ export class SignInComponent implements OnInit {
       const token = data.token;
       window.localStorage.setItem(environment.api_token_identifier, token);
       this._router.navigateByUrl('/home');
-      console.log('mausk2')
     } catch (error) {
       console.log(error);
       this.errorMessage = 'Sorry, something went wrong. Please try again later!';
     }
+  }
+
+  direct(link: string) {
+    this._router.navigateByUrl(link);
   }
 }
