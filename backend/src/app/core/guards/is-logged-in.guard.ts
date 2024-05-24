@@ -17,7 +17,7 @@ export class IsLoggedInGuard implements CanActivate, CanActivateChild, CanDeacti
   {
     const accessToken = window.localStorage.getItem(environment.api_token_identifier);
     if (accessToken === null || accessToken === undefined || accessToken.length <= 0) {
-      this.router.navigateByUrl("/login");
+      this.router.navigateByUrl("/auth");
       return false;
     }
 

@@ -26,6 +26,11 @@ export class SignInComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const storedToken = window.localStorage.getItem(environment.api_token_identifier);
+    if (storedToken !== null && storedToken !== undefined && storedToken.length > 0) {
+      this._router.navigateByUrl('/home');
+    }
+
     this.formLogin = this._formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', Validators.required],
